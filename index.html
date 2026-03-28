@@ -433,7 +433,7 @@
       position: fixed;
       top: 50%;
       left: 0;
-      transform: translateY(-50%) translateX(-100%);
+      transform: translateY(-50%);
       z-index: 1100;
       width: 48px;
       height: 48px;
@@ -446,16 +446,11 @@
       align-items: center;
       justify-content: center;
       box-shadow: 3px 0 16px rgba(15, 28, 51, 0.35);
-      transition: background 0.2s, width 0.2s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease, visibility 0.3s ease;
+      transition: background 0.2s, width 0.2s;
       padding: 0;
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .a11y-trigger.scroll-visible {
+      /* Always visible – WCAG 2.1 compliance */
       opacity: 1;
       visibility: visible;
-      transform: translateY(-50%) translateX(0);
     }
 
     .a11y-trigger:hover {
@@ -1191,30 +1186,32 @@
         display: none !important;
       }
 
-      /* ─ Accessibility Widget – top-left on mobile, slides in from left ─ */
+      /* ─ Accessibility Widget – fixed at top-left, always visible (WCAG) ─ */
       .a11y-trigger {
-        top: 16px;
+        top: 12px;
         bottom: auto;
         left: 0;
-        transform: translateX(-100%);
-      }
-
-      .a11y-trigger.scroll-visible {
-        transform: translateX(0);
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        width: 44px;
+        height: 44px;
+        border-radius: 0 8px 8px 0;
       }
 
       /* ─ A11Y Panel – opens downward from top ─ */
       .a11y-panel {
-        top: 0;
+        top: 56px;
         bottom: auto;
-        left: 56px;
-        transform: translateX(-20px);
-        max-height: 90vh;
+        left: 0;
+        transform: translateY(-10px);
+        max-height: 85vh;
         overflow-y: auto;
+        border-radius: 0 16px 16px 16px;
       }
 
       .a11y-panel.open {
-        transform: translateX(0);
+        transform: translateY(0);
       }
 
       /* ─ Floating WhatsApp – slightly smaller ─ */
@@ -1825,24 +1822,20 @@
       applyAll();
     });
 
-    /* ══════════════ SCROLL REVEAL – WA / A11Y / STICKY CTA ══════════════ */
+    /* ══════════════ SCROLL REVEAL – WA / STICKY CTA only (a11y is always visible) ══════════════ */
     (function() {
       const floatingWa  = document.getElementById('floating-wa');
-      const a11yTrig    = document.getElementById('a11y-trigger');
       const stickyCta   = document.querySelector('.mobile-sticky-cta');
       const THRESHOLD   = 80;
 
       function onScroll() {
         const show = window.scrollY > THRESHOLD;
         if (floatingWa)  floatingWa.classList.toggle('scroll-visible', show);
-        if (a11yTrig)    a11yTrig.classList.toggle('scroll-visible', show);
         if (stickyCta)   stickyCta.classList.toggle('scroll-visible', show);
       }
 
-      // Run immediately & on every scroll
       onScroll();
       window.addEventListener('scroll', onScroll, { passive: true });
-      // Also run after full page load (images etc.)
       window.addEventListener('load', onScroll);
     })();
   </script>
