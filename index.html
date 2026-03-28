@@ -167,6 +167,15 @@
       margin-top: 2px;
     }
 
+    .brand-stars {
+      font-size: 11px;
+      color: var(--gold-light);
+      display: block;
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
     .hero-tagline {
       font-size: 14px;
       font-weight: 600;
@@ -1187,10 +1196,10 @@
         display: none !important;
       }
 
-      /* ─ Accessibility Widget – fixed bottom-right, above sticky CTA bar (WCAG) ─ */
+      /* ─ Accessibility Widget – fixed bottom-right, always visible (WCAG) ─ */
       .a11y-trigger {
         top: auto;
-        bottom: 80px;  /* above the sticky CTA bar */
+        bottom: 130px;  /* above sticky CTA + some breathing room */
         right: 0;
         left: auto;
         transform: none !important;
@@ -1202,21 +1211,23 @@
         box-shadow: -2px 0 12px rgba(15, 28, 51, 0.3);
       }
 
-      /* ─ A11Y Panel – opens leftward, above sticky CTA ─ */
+      /* ─ A11Y Panel – opens leftward from the button ─ */
       .a11y-panel {
         top: auto;
-        bottom: 80px;
+        bottom: 130px;
         right: 50px;
         left: auto;
-        transform: translateX(10px);
-        max-height: 75vh;
+        transform: translateX(10px) !important;
+        max-height: 70vh;
         overflow-y: auto;
         border-radius: 16px 0 16px 16px;
         width: 210px;
       }
 
       .a11y-panel.open {
-        transform: translateX(0);
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        transform: translateX(0) !important;
       }
 
       /* ─ Floating WhatsApp – slightly smaller ─ */
@@ -1371,6 +1382,9 @@
           <div class="logo-text">
             <span class="brand-name">מושיקו הובלות</span>
             <span class="brand-sub">הובלה, אחסנה, מנוף</span>
+            <span class="brand-stars" aria-label="דירוג 5 כוכבים על פי ביקורות גוגל">
+              ⭐⭐⭐⭐⭐ <span aria-hidden="true">על פי ביקורות גוגל</span>
+            </span>
           </div>
         </div>
 
