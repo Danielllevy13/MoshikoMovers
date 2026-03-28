@@ -1186,10 +1186,15 @@
         font-size: clamp(20px, 5.5vw, 28px);
       }
 
-      /* ─ Accessibility Widget – move to bottom on mobile (scroll-visible preserved) ─ */
+      /* ─ Floating WA – hidden on mobile (sticky CTA already has WhatsApp) ─ */
+      .floating-wa {
+        display: none !important;
+      }
+
+      /* ─ Accessibility Widget – top-left on mobile, slides in from left ─ */
       .a11y-trigger {
-        top: auto;
-        bottom: 100px;
+        top: 16px;
+        bottom: auto;
         left: 0;
         transform: translateX(-100%);
       }
@@ -1198,12 +1203,13 @@
         transform: translateX(0);
       }
 
+      /* ─ A11Y Panel – opens downward from top ─ */
       .a11y-panel {
-        top: auto;
-        bottom: 100px;
+        top: 0;
+        bottom: auto;
         left: 56px;
         transform: translateX(-20px);
-        max-height: 80vh;
+        max-height: 90vh;
         overflow-y: auto;
       }
 
