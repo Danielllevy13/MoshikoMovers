@@ -916,6 +916,7 @@
       opacity: 1;
       visibility: visible;
       transform: scale(1);
+      pointer-events: auto;
     }
 
     .floating-wa:hover {
@@ -1487,7 +1488,7 @@
 
             <!-- Move date -->
             <div class="form-group">
-              <label for="move-date">תאריך הובלה מעוניין <span class="optional-tag"
+              <label for="move-date">תאריך הובלה צפוי <span class="optional-tag"
                   aria-label="אופציונלי">אופציונלי</span></label>
               <input type="date" id="move-date" name="moveDate" />
             </div>
@@ -1819,21 +1820,25 @@
     });
 
     /* ══════════════ SCROLL REVEAL – WA / A11Y / STICKY CTA ══════════════ */
-    const floatingWa   = document.getElementById('floating-wa');
-    const a11yTrigger  = document.getElementById('a11y-trigger');
-    const stickyCta    = document.querySelector('.mobile-sticky-cta');
-    const SCROLL_THRESHOLD = 120; // px after which elements appear
+    (function() {
+      const floatingWa  = document.getElementById('floating-wa');
+      const a11yTrig    = document.getElementById('a11y-trigger');
+      const stickyCta   = document.querySelector('.mobile-sticky-cta');
+      const THRESHOLD   = 80;
 
-    function handleScroll() {
-      const scrolled = window.scrollY > SCROLL_THRESHOLD;
-      floatingWa.classList.toggle('scroll-visible', scrolled);
-      a11yTrigger.classList.toggle('scroll-visible', scrolled);
-      if (stickyCta) stickyCta.classList.toggle('scroll-visible', scrolled);
-    }
+      function onScroll() {
+        const show = window.scrollY > THRESHOLD;
+        if (floatingWa)  floatingWa.classList.toggle('scroll-visible', show);
+        if (a11yTrig)    a11yTrig.classList.toggle('scroll-visible', show);
+        if (stickyCta)   stickyCta.classList.toggle('scroll-visible', show);
+      }
 
-    // Run once on load (in case page is already scrolled)
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
+      // Run immediately & on every scroll
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      // Also run after full page load (images etc.)
+      window.addEventListener('load', onScroll);
+    })();
   </script>
 </body>
 
