@@ -432,7 +432,8 @@
     .a11y-trigger {
       position: fixed;
       top: 50%;
-      left: 0;
+      right: 0;
+      left: auto;
       transform: translateY(-50%);
       z-index: 1100;
       width: 48px;
@@ -440,15 +441,14 @@
       background: var(--navy);
       color: white;
       border: none;
-      border-radius: 0 10px 10px 0;
+      border-radius: 10px 0 0 10px;  /* pill from right */
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 3px 0 16px rgba(15, 28, 51, 0.35);
+      box-shadow: -3px 0 16px rgba(15, 28, 51, 0.35);
       transition: background 0.2s, width 0.2s;
       padding: 0;
-      /* Always visible – WCAG 2.1 compliance */
       opacity: 1;
       visibility: visible;
     }
@@ -472,8 +472,9 @@
     .a11y-panel {
       position: fixed;
       top: 50%;
-      left: 56px;
-      transform: translateY(-50%) translateX(-20px);
+      right: 56px;
+      left: auto;
+      transform: translateY(-50%) translateX(20px);
       z-index: 1099;
       background: white;
       border-radius: 16px;
@@ -1186,32 +1187,36 @@
         display: none !important;
       }
 
-      /* ─ Accessibility Widget – fixed at top-left, always visible (WCAG) ─ */
+      /* ─ Accessibility Widget – fixed bottom-right, above sticky CTA bar (WCAG) ─ */
       .a11y-trigger {
-        top: 12px;
-        bottom: auto;
-        left: 0;
+        top: auto;
+        bottom: 80px;  /* above the sticky CTA bar */
+        right: 0;
+        left: auto;
         transform: none !important;
         opacity: 1 !important;
         visibility: visible !important;
-        width: 44px;
-        height: 44px;
-        border-radius: 0 8px 8px 0;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px 0 0 10px;
+        box-shadow: -2px 0 12px rgba(15, 28, 51, 0.3);
       }
 
-      /* ─ A11Y Panel – opens downward from top ─ */
+      /* ─ A11Y Panel – opens leftward, above sticky CTA ─ */
       .a11y-panel {
-        top: 56px;
-        bottom: auto;
-        left: 0;
-        transform: translateY(-10px);
-        max-height: 85vh;
+        top: auto;
+        bottom: 80px;
+        right: 50px;
+        left: auto;
+        transform: translateX(10px);
+        max-height: 75vh;
         overflow-y: auto;
-        border-radius: 0 16px 16px 16px;
+        border-radius: 16px 0 16px 16px;
+        width: 210px;
       }
 
       .a11y-panel.open {
-        transform: translateY(0);
+        transform: translateX(0);
       }
 
       /* ─ Floating WhatsApp – slightly smaller ─ */
