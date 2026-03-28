@@ -433,7 +433,7 @@
       position: fixed;
       top: 50%;
       left: 0;
-      transform: translateY(-50%);
+      transform: translateY(-50%) translateX(-100%);
       z-index: 1100;
       width: 48px;
       height: 48px;
@@ -446,8 +446,16 @@
       align-items: center;
       justify-content: center;
       box-shadow: 3px 0 16px rgba(15, 28, 51, 0.35);
-      transition: background 0.2s, width 0.2s;
+      transition: background 0.2s, width 0.2s, transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s ease, visibility 0.3s ease;
       padding: 0;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .a11y-trigger.scroll-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
     }
 
     .a11y-trigger:hover {
@@ -897,8 +905,17 @@
       justify-content: center;
       text-decoration: none;
       box-shadow: 0 6px 24px rgba(37, 211, 102, 0.45);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, opacity 0.3s ease, visibility 0.3s ease;
       animation: pulse-wa 2.5s infinite;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.7);
+    }
+
+    .floating-wa.scroll-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
     }
 
     .floating-wa:hover {
@@ -1168,12 +1185,16 @@
         font-size: clamp(20px, 5.5vw, 28px);
       }
 
-      /* ─ Accessibility Widget – move to bottom-right on mobile ─ */
+      /* ─ Accessibility Widget – move to bottom on mobile (scroll-visible preserved) ─ */
       .a11y-trigger {
         top: auto;
         bottom: 100px;
         left: 0;
-        transform: none;
+        transform: translateX(-100%);
+      }
+
+      .a11y-trigger.scroll-visible {
+        transform: translateX(0);
       }
 
       .a11y-panel {
@@ -1216,7 +1237,7 @@
         transform: translateY(0);
       }
 
-      /* ─ Sticky CTA Bar (appears fixed at bottom) ─ */
+      /* ─ Sticky CTA Bar (appears fixed at bottom, slides in on scroll) ─ */
       .mobile-sticky-cta {
         display: flex;
         position: fixed;
@@ -1230,6 +1251,14 @@
         gap: 10px;
         align-items: center;
         box-shadow: 0 -4px 20px rgba(15, 28, 51, 0.4);
+        transform: translateY(100%);
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.34,1.3,0.64,1), opacity 0.3s ease;
+      }
+
+      .mobile-sticky-cta.scroll-visible {
+        transform: translateY(0);
+        opacity: 1;
       }
 
       .mobile-sticky-cta a {
@@ -1788,6 +1817,23 @@
       ['a11y-font', 'a11y-contrast', 'a11y-cursor', 'a11y-links'].forEach(k => LS.removeItem(k));
       applyAll();
     });
+
+    /* ══════════════ SCROLL REVEAL – WA / A11Y / STICKY CTA ══════════════ */
+    const floatingWa   = document.getElementById('floating-wa');
+    const a11yTrigger  = document.getElementById('a11y-trigger');
+    const stickyCta    = document.querySelector('.mobile-sticky-cta');
+    const SCROLL_THRESHOLD = 120; // px after which elements appear
+
+    function handleScroll() {
+      const scrolled = window.scrollY > SCROLL_THRESHOLD;
+      floatingWa.classList.toggle('scroll-visible', scrolled);
+      a11yTrigger.classList.toggle('scroll-visible', scrolled);
+      if (stickyCta) stickyCta.classList.toggle('scroll-visible', scrolled);
+    }
+
+    // Run once on load (in case page is already scrolled)
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
   </script>
 </body>
 
